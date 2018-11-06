@@ -18,6 +18,8 @@ def processing():
         api.messages.send(access_token=token, user_id=str(user_id), message='Привет, я новый бот!')
         # Сообщение о том, что обработка прошла успешно
         return 'ok'
+
+    ##здесь могли бы быть ваши кнопки
 #app.run() pythonanywhere автоматом дописывает эту строку, если вы разворачиваете на своем сервере
 # то расскомитьте эту строку
 
