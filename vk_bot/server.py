@@ -2,42 +2,41 @@ import vk_requests
 from flask import Flask, request, json
 from settings import *
 import json
+import time
 
 app = Flask(__name__)
 
-
-#### KEYBOARD ####
-
 def get_button(label, color, payload=""):
     return {
-        "action":{
-            "type":"text",
-            "payload":json.dumps(payload),
-            "label":label
+        "action": {
+            "type": "text",
+            "payload": json.dumps(payload),
+            "label": label
         },
-        "color":color
+        "color": color
     }
-
-keyboard = {
-    "one_time":False,
-    "buttons":{
-        [
-        get_button(label="New task", color="positive")
-        get_button(label="Help", color="positive")
-        ]
-    }
-}
-
-# Вопрос иерархии открыт
-
-keyboard = json.dumps(keyboard, ensure_ascii=False).encode("utf-8") #?
-keyboard = str(keyboard.decode("utf-8")) #?
-
-
-####
 
 @app.route('/', methods=['POST'])
-def processing():
+def main():
+    keyboard = {
+        'one_time': False,
+        'buttons': [[get_button(label="Список задач", color="positive"), get_button(label="Новая задача", color="negative"),
+        get_button(label="Приступить сейчас", color="primary"),
+        get_button(label="Справка", color="default")
+        ]]
+    }
+    keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-8')
+    keyboard = str(keyboard.decode('utf-8'))
+
+    keyboard2 = {
+        'one_time': False,
+        'buttons': [[get_button(label="Спbcr", color="positive"), get_button(label="Новая задача", color="negative"),
+        get_button(label="Приступить сейчас", color="primary"),
+        get_button(label="Справка", color="default")
+        ]]
+    }
+    keyboard2 = json.dumps(keyboard2, ensure_ascii=False).encode('utf-8')
+    keyboard2 = str(keyboard2.decode('utf-8'))
     #Распаковываем json из пришедшего POST-запроса
     data = json.loads(request.data)
     #Вконтакте в своих запросах всегда отправляет поле типа
@@ -48,9 +47,10 @@ def processing():
     elif data['type'] == 'message_new':
         api = vk_requests.create_api()
         user_id = data['object']['user_id']
-        api.messages.send(access_token=token, user_id=str(user_id), message='Привет, я новый бот!')
+        #api.messages.send(access_token=token, user_id=str(user_id), message='Привет, я новый бот!')
         api.messages.send(access_token=token, user_id=str(user_id), message='Тык', keyboard=keyboard)
-        vk.method
+        time.sleep(5)
+        api.messages.send(access_token=token, user_id=str(user_id), message='Тык', keyboard=keyboard2)
         # Сообщение о том, что обработка прошла успешно
         return 'ok'
 
@@ -60,5 +60,3 @@ def processing():
     ##здесь могли бы быть ваши кнопки
 #app.run() pythonanywhere автоматом дописывает эту строку, если вы разворачиваете на своем сервере
 # то расскомитьте эту строку
-
-
