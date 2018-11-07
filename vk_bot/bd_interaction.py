@@ -32,8 +32,6 @@ def write_task(id,name,type_task):
         os.chdir(str(now.month))
         days_db = open('days.json','r').read()
         json_pars = json.loads(days_db)
-        print(json_pars)
-        print(now.day)
         json_pars[str(now.day)].append(task)
         days_db = open('days.json','w').write(json.dumps(json_pars))
         os.chdir(root_directory)
