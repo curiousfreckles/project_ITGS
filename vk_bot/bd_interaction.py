@@ -24,7 +24,7 @@ def generate_person_bd(id):
 def write_task(id,name,type_task):
     now = datetime.datetime.now()
     task = {'name':name,'result':0}
-    
+
     if type_task == "day":
         os.chdir(id)
         os.chdir(now.month)
@@ -40,3 +40,10 @@ def write_task(id,name,type_task):
         json_pars = json.loads(weeks_db)
         json_pars[str(now.isoweekday)].append(task)
         days_db = open('weeks.json','w').write(json_pars)
+    else:
+        os.chdir(id)
+        os.chdir(now.month)
+        mounth_db = open('mounth.json','r').read()
+        json_pars = json.loads(mounth_db)
+        json_pars[str(now.isoweekday)].append(task)
+        mounth_db = open('mounth.json','w').write(json_pars)
