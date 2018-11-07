@@ -5,7 +5,7 @@ import json
 def generate_person_bd(id):
     id = str(id)
     now = datetime.datetime.now()
-    root_directory = os.getcwd()
+    root_directory = os.getcwd() #запомним корень всей БД чтобы вернуться в нее
     os.mkdir(id)
     os.chdir(id)
     os.mkdir(str(now.month))
