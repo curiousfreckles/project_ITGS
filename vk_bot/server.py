@@ -4,28 +4,8 @@ from settings import *
 import json
 
 app = Flask(__name__)
-
-def get_button(label, color, payload=""):
-    return {
-        "action": {
-            "type": "text",
-            "payload": json.dumps(payload),
-            "label": label
-        },
-        "color": color
-    }
-
 @app.route('/', methods=['POST'])
 def main():
-    keyboard = {
-        'one_time': False,
-        'buttons': [[get_button(label="Список задач", color="positive"), get_button(label="Новая задача", color="negative"),
-        get_button(label="Приступить сейчас", color="primary"),
-        get_button(label="Справка", color="default")
-        ]]
-    }
-    keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-8')
-    keyboard = str(keyboard.decode('utf-8'))
     #Распаковываем json из пришедшего POST-запроса
     data = json.loads(request.data)
     #Вконтакте в своих запросах всегда отправляет поле типа
