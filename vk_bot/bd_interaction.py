@@ -3,11 +3,17 @@ import datetime
 import json
 import year_info
 
-def change_result(id,mounth,type_task,name):
+'''def change_result(id,mounth,type_task,name):
     root_directory = os.getcwd()
     os.chdir(str(id))
     os.chdir(str(mounth))
-
+    if type_task == "mounth":pass
+    else:
+        type_task = open('days.json', 'r').read()
+        json_pars = json.loads(type_task)
+        json_pars[now.day-1][str(now.day)].append(task)
+        day_db = open('days.json', 'w').write(json.dumps(json_pars))'''
+#TODO Спросить как тама задачки чекировать и выводить
 
 
 def write_templates():
@@ -23,12 +29,12 @@ def write_templates():
         weeks_db.write(json.dumps(json_db))
         weeks_db.close()
 
-        days_db = open('days.json', 'w')
+        day_db = open('days.json', 'w')
         json_db = []
         for i in range(mounth[num]['days']):
             json_db.append({str(i+1):[]})
-        days_db.write(json.dumps(json_db))
-        days_db.close()
+        day_db.write(json.dumps(json_db))
+        day_db.close()
 
         mounth_db = open('mounth.json', 'w').write(json.dumps([]))
         os.chdir("..")
@@ -52,18 +58,18 @@ def write_task(id, name, type_task):
     now = datetime.datetime.now()
     task = {"name": name, "result": 0}
 
-    if type_task == "day":
-        days_db = open('days.json', 'r').read()
-        json_pars = json.loads(days_db)
+    if type_task == "days":
+        day_db = open('days.json', 'r').read()
+        json_pars = json.loads(day_db)
         json_pars[now.day-1][str(now.day)].append(task)
-        days_db = open('days.json', 'w').write(json.dumps(json_pars))
+        day_db = open('days.json', 'w').write(json.dumps(json_pars))
         os.chdir(root_directory)
 
-    elif type_task == "week":
+    elif type_task == "weeks":
         weeks_db = open('weeks.json', 'r').read()
         json_pars = json.loads(weeks_db)
         json_pars[now.day // 7-1][str(now.day // 7)].append(task)
-        days_db = open('weeks.json', 'w').write(json.dumps(json_pars))
+        day_db = open('weeks.json', 'w').write(json.dumps(json_pars))
         os.chdir(root_directory)
 
     else:
@@ -82,13 +88,13 @@ def get_tasks(id, type_task):
     os.chdir(id)
     os.chdir(str(now.month))
 
-    if type_task == "day":
-        days_db = open('days.json', 'r').read()
-        json_pars = json.loads(days_db)[now.day-1][str(now.day)]
+    if type_task == "days":
+        day_db = open('days.json', 'r').read()
+        json_pars = json.loads(day_db)[now.day-1][str(now.day)]
         os.chdir(root_directory)
         return json_pars
 
-    elif type_task == "week":
+    elif type_task == "weeks":
         weeks_db = open('weeks.json', 'r').read()
         json_pars = json.loads(weeks_db)[now.day // 7-1][str(now.day //7)]
         os.chdir(root_directory)
