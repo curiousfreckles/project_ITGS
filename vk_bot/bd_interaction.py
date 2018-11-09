@@ -13,33 +13,34 @@ import year_info
         json_pars = json.loads(type_task)
         json_pars[now.day-1][str(now.day)].append(task)
         day_db = open('days.json', 'w').write(json.dumps(json_pars))'''
-#TODO Спросить как тама задачки чекировать и выводить
+# TODO Спросить как тама задачки чекировать и выводить
 
 
 def write_templates():
-    for num,mounth in enumerate(year_info.info):
-        num=str(num+1)
+    for num, mounth in enumerate(year_info.info):
+        num = str(num+1)  # Месяц то с 1, а не с 0 шаришь?
         os.mkdir(num)
         os.chdir(num)
 
         weeks_db = open('weeks.json', 'w')
         json_db = []
         for i in range(mounth[num]['weeks']):
-            json_db.append({str(i+1):[]})
+            json_db.append({str(i+1): []})  # чекай шаблон файла БД, все прошаришь
         weeks_db.write(json.dumps(json_db))
         weeks_db.close()
 
         day_db = open('days.json', 'w')
         json_db = []
         for i in range(mounth[num]['days']):
-            json_db.append({str(i+1):[]})
+            json_db.append({str(i+1): []})
         day_db.write(json.dumps(json_db))
         day_db.close()
 
         mounth_db = open('mounth.json', 'w').write(json.dumps([]))
-        os.chdir("..")
+        os.chdir("..")  # Вернуться то назад надо!!!
 
-def generate_person_bd(id):
+
+def generate_person_bd(id: int):
     id = str(id)
     now = datetime.datetime.now()
     root_directory = os.getcwd()  # запомним корень всей БД чтобы вернуться в нее
@@ -49,7 +50,7 @@ def generate_person_bd(id):
     os.chdir(root_directory)
 
 
-def write_task(id, name, type_task):
+def write_task(id: int, name: str, type_task: str):
     id = str(id)
     root_directory = os.getcwd()
     now = datetime.datetime.now()
@@ -61,7 +62,7 @@ def write_task(id, name, type_task):
     if type_task == "days":
         day_db = open('days.json', 'r').read()
         json_pars = json.loads(day_db)
-        json_pars[now.day-1][str(now.day)].append(task)
+        json_pars[now.day-1][str(now.day)].append(task)  # И опять таки чекни схему БД
         day_db = open('days.json', 'w').write(json.dumps(json_pars))
         os.chdir(root_directory)
 
@@ -80,7 +81,7 @@ def write_task(id, name, type_task):
         os.chdir(root_directory)
 
 
-def get_tasks(id, type_task):
+def get_tasks(id: int, type_task: str): -> list
     tasks = ""
     id = str(id)
     now = datetime.datetime.now()
@@ -88,7 +89,7 @@ def get_tasks(id, type_task):
     os.chdir(id)
     os.chdir(str(now.month))
 
-    if type_task == "days":
+   if type_task == "days":
         day_db = open('days.json', 'r').read()
         json_pars = json.loads(day_db)[now.day-1][str(now.day)]
         os.chdir(root_directory)
@@ -96,7 +97,7 @@ def get_tasks(id, type_task):
 
     elif type_task == "weeks":
         weeks_db = open('weeks.json', 'r').read()
-        json_pars = json.loads(weeks_db)[now.day // 7-1][str(now.day //7)]
+        json_pars = json.loads(weeks_db)[now.day // 7-1][str(now.day // 7)]
         os.chdir(root_directory)
         return json_pars
 
