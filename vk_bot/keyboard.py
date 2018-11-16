@@ -17,7 +17,7 @@ def get_button(label, color, payload=""):
 keyboard1 = {
     "one_time": False,
     "buttons": [
-    [get_button(label="Новая задача", color="primary"), 
+    [get_button(label="Новая задача", color="primary"),
     get_button(label="Список задач", color="primary")],
     [get_button(label="Справка", color="default")]
     ]
@@ -28,11 +28,22 @@ keyboard1 = {
 keyboard2 = {
     "one_time": False,
     "buttons": [
-    [get_button(label="Выполнено", color="positive"), 
+    [get_button(label="Выполнено", color="positive"),
     get_button(label="Удалить", color="negative")],
     [get_button(label="Назад", color="default")]
     ]
 }
 
+keyboard_newtask = {
+"one_time": False,
+"buttons": [
+[get_button(label="Сегодня", color="positive"),
+get_button(label="Неделя", color="negative")],
+[get_button(label="Месяц", color="default")],
+[get_button(label="Назад", color="default")]
+]
+}
+
+keyboard_newtask = json.dumps(keyboard_newtask, ensure_ascii=False)
 keyboard1 = json.dumps(keyboard1, ensure_ascii=False)
 keyboard2 = json.dumps(keyboard2, ensure_ascii=False)
